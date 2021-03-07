@@ -24,7 +24,11 @@ def printar_detalhe(msg):
 
     movie = requisicao(msg['text'])
     bot.sendMessage(msg['chat']['id'], "Encontrei alguns resultados para o título \""+ msg['text']+"\" \U0001f9D0")
-
+    timenow = datetime.datetime.now().strftime("%A %d/%m/%Y às %H:%M")
+    log = "=================================\n"+timenow+"\nRemetente: "+ msg['chat']['first_name']+"\nFilme pesquisado: "+msg['text']
+    arquivo = open('/home/diogogs/BotMovie2/log.txt','a+')
+    arquivo.write(str(log))
+    arquivo.close()
     if movie['total_results'] > 40:
         bot.sendMessage(msg['chat']['id'],
                         "Puxa "+ msg['chat']['first_name']+"!!! \U0001F614 Que pena meu dono não me permite enviar tantas mensagens, tente refinar um pouco mais a sua busca!  \U0001F61C")
@@ -35,10 +39,7 @@ def printar_detalhe(msg):
         for x in range(0,movie['total_pages']):
             #bot.sendMessage(msg['chat']['id'], movie['results'][i])
             movie2 = requisicao(msg['text']+"&page="+str(x + 1))
-            print("Página: "+str(x))
             for y in range(0,20):
-                print(msg['chat']['id'], movie2['results'][y])
-                print(y)
                 linha = y + 1
                 if (movie2['results'][y]['backdrop_path'] is not None) and  movie2['results'][y]['overview'] != "":
                     bot.sendMessage(msg['chat']['id'], "Título: " + str(movie2['results'][y]['title'])+
@@ -48,11 +49,7 @@ def printar_detalhe(msg):
                     bot.sendPhoto(msg['chat']['id'],
                               "https://image.tmdb.org/t/p/original" + movie2['results'][y]['backdrop_path'])
                     #bot.sendMessage(msg['chat']['id'], "=========================================")
-    timenow = datetime.datetime.now().strftime("%A %d/%m/%Y às %H:%M")
-    log = "=================================\n"+timenow+"\nRemetente: "+ msg['chat']['first_name']+"\nFilme pesquisado: "+msg['text']
-    arquivo = open('/home/diogogs/BotMovie2/log.txt','a+')
-    arquivo.write(str(log))
-    arquivo.close()
+                    
 
 bot.message_loop(printar_detalhe, 5)
 while True:
