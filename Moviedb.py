@@ -24,14 +24,11 @@ def printar_detalhe(msg):
 
     movie = requisicao(msg['text'])
     bot.sendMessage(msg['chat']['id'], "Encontrei alguns resultados para o título \""+ msg['text']+"\" \U0001f9D0")
+
     if movie['total_results'] > 40:
         bot.sendMessage(msg['chat']['id'],
                         "Puxa "+ msg['chat']['first_name']+"!!! \U0001F614 Que pena meu dono não me permite enviar tantas mensagens, tente refinar um pouco mais a sua busca!  \U0001F61C")
-        timenow = datetime.datetime.now().strftime("%A %d/%m/%Y às %H:%M")
-        log = "=================================\n"+timenow+"\nRemetente: "+ msg['chat']['first_name']+"\nFilme pesquisado: "+msg['text']
-        arquivo = open('/home/diogogs/BotMovie2/log.txt','a+')
-        arquivo.write(str(log))
-        arquivo.close()
+        
         
         return None
     else:
@@ -51,7 +48,11 @@ def printar_detalhe(msg):
                     bot.sendPhoto(msg['chat']['id'],
                               "https://image.tmdb.org/t/p/original" + movie2['results'][y]['backdrop_path'])
                     #bot.sendMessage(msg['chat']['id'], "=========================================")
-
+    timenow = datetime.datetime.now().strftime("%A %d/%m/%Y às %H:%M")
+    log = "=================================\n"+timenow+"\nRemetente: "+ msg['chat']['first_name']+"\nFilme pesquisado: "+msg['text']
+    arquivo = open('/home/diogogs/BotMovie2/log.txt','a+')
+    arquivo.write(str(log))
+    arquivo.close()
 
 bot.message_loop(printar_detalhe, 5)
 while True:
