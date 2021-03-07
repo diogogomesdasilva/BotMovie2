@@ -2,6 +2,7 @@ import requests
 import json
 import telepot
 import locale
+import datetime
 
 bot = telepot.Bot('1682510966:AAHLZWvkjvV90g3q9CvSKM5IygkAB5z0RNA')
 locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
@@ -25,8 +26,8 @@ def printar_detalhe(msg):
     movie = requisicao(msg['text'])
     bot.sendMessage(msg['chat']['id'], "Encontrei alguns resultados para o título \""+ msg['text']+"\" \U0001f9D0")
     timenow = datetime.datetime.now().strftime("%A %d/%m/%Y às %H:%M")
-    log = "=================================\n"+timenow+"\nRemetente: "+ msg['chat']['first_name']+"\nFilme pesquisado: "+msg['text']
-    arquivo = open('/home/diogogs/BotMovie2/log.txt','a+')
+    log = "\n=================================\n"+timenow+"\nRemetente: "+ msg['chat']['first_name']+"\nFilme pesquisado: "+msg['text']
+    arquivo = open('log.txt', 'a+')
     arquivo.write(str(log))
     arquivo.close()
     if movie['total_results'] > 40:
@@ -49,7 +50,7 @@ def printar_detalhe(msg):
                     bot.sendPhoto(msg['chat']['id'],
                               "https://image.tmdb.org/t/p/original" + movie2['results'][y]['backdrop_path'])
                     #bot.sendMessage(msg['chat']['id'], "=========================================")
-                    
+
 
 bot.message_loop(printar_detalhe, 5)
 while True:
