@@ -48,7 +48,7 @@ def printar_detalhe(msg):
                                     "\nNota: " + str(movie2['results'][y]['vote_average'])+
                                     "\nSinopse:\n" + movie2['results'][y]['overview'])
                     bot.sendPhoto(msg['chat']['id'],
-                              "https://image.tmdb.org/t/p/original" + movie2['results'][y]['backdrop_path'])
+                              "https://image.tmdb.org/t/p/original" + movie2['results'][y]['poster_patch'])
                     #bot.sendMessage(msg['chat']['id'], "=========================================")
 
 
