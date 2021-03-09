@@ -30,11 +30,9 @@ def printar_detalhe(msg):
     arquivo = open('log.txt', 'a+')
     arquivo.write(str(log))
     arquivo.close()
-    if movie['total_results'] > 40:
+    if movie['total_results'] > 200:
         bot.sendMessage(msg['chat']['id'],
                         "Puxa "+ msg['chat']['first_name']+"!!! \U0001F614 Que pena meu dono não me permite enviar tantas mensagens, tente refinar um pouco mais a sua busca!  \U0001F61C")
-        
-        
         return None
     else:
         for x in range(0,movie['total_pages']):
@@ -42,13 +40,14 @@ def printar_detalhe(msg):
             movie2 = requisicao(msg['text']+"&page="+str(x + 1))
             for y in range(0,20):
                 linha = y + 1
-                if (movie2['results'][y]['backdrop_path'] is not None) and  movie2['results'][y]['overview'] != "":
+
+                if (movie2['results'][y]['poster_path'] is not None) and  movie2['results'][y]['overview'] != "":
                     bot.sendMessage(msg['chat']['id'], "Título: " + str(movie2['results'][y]['title'])+
                                     "\nLançamento: " + str(movie2['results'][y]['release_date'])+
                                     "\nNota: " + str(movie2['results'][y]['vote_average'])+
                                     "\nSinopse:\n" + movie2['results'][y]['overview'])
                     bot.sendPhoto(msg['chat']['id'],
-                              "https://image.tmdb.org/t/p/original" + movie2['results'][y]['poster_patch'])
+                              "https://image.tmdb.org/t/p/original" + movie2['results'][y]['poster_path'])
                     #bot.sendMessage(msg['chat']['id'], "=========================================")
 
 
